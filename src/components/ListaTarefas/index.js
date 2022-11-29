@@ -7,28 +7,49 @@ import {
   TaskInput,
   AddTaskButton,
   RemoveButton,
-  LinhaHorizontal
+  LinhaHorizontal,
+  TarefaConcluida,
+  TextoRiscadoEOpaco
 } from "./styled";
 import bin from "../../assets/bin.png";
 
 export function ListaTarefas() {
   const [lista, setLista] = useState(["Fazer exercícios", "Estudar React"]);
   const [novaTarefa, setNovaTarefa] = useState("");
+  const [concluido, setConcluido] = useState([])
 
   const onChangeTarefa = (event) => {
     setNovaTarefa(event.target.value);
   };
 
   const adicionaTarefa = () => {
+    if(novaTarefa.length < 3){
+      return alert("Tá faltando caracteres poha")
+    };
     const novaLista = [...lista, novaTarefa];
     setLista(novaLista);
     setNovaTarefa("");
   };
 
+  const adicionarTarefaComEnter = (e) => {
+    if(e.keyCode === 13) {
+      e.preventDefault();
+      if(novaTarefa.length < 3){
+        return alert("Tá faltando caracteres poha")
+      };
+      const novaLista = [...lista, novaTarefa];
+      setLista(novaLista);
+      setNovaTarefa("");
+    }
+  }
+
   const removeTarefa = (tarefa) => {
     const listaFiltrada = lista.filter((item) => item !== tarefa);
     setLista(listaFiltrada);
+    const listaConcluida = lista.filter((item) => item === tarefa);
+    setConcluido([...concluido, listaConcluida])
   };
+
 
   return (
     <ListaTarefasContainer>
@@ -37,8 +58,9 @@ export function ListaTarefas() {
           placeholder="Digite aqui uma tarefa"
           value={novaTarefa}
           onChange={onChangeTarefa}
+          onKeyUp={(e) => adicionarTarefaComEnter(e)}
         />
-        <AddTaskButton onClick={adicionaTarefa}>Adicionar</AddTaskButton>
+        <AddTaskButton onClick={adicionaTarefa} >Adicionar</AddTaskButton>
       </InputContainer>
       <ListaContainer>
         <ul>
@@ -54,7 +76,17 @@ export function ListaTarefas() {
           })}
         </ul>
       </ListaContainer>
+
       <LinhaHorizontal/>
+      <ul>
+          {concluido.map((tarefa, index) => {
+            return (
+              <TarefaConcluida key={index}>
+                <TextoRiscadoEOpaco>{tarefa}</TextoRiscadoEOpaco>
+              </TarefaConcluida>
+            );
+          })}
+        </ul>
     </ListaTarefasContainer>
   );
 }

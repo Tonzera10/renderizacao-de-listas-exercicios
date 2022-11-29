@@ -72,3 +72,19 @@ export const LinhaHorizontal = styled.hr`
   width: 100%;
   margin: 16px;
 `
+
+export const TarefaConcluida = styled.li`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 6px 8px;
+  width: 400px;
+  opacity: 0.5;
+`
+export const TextoRiscadoEOpaco = styled.p`
+  text-decoration: line-through;
+  opacity: 0.5;
+`
